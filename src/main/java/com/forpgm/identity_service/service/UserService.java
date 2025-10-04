@@ -46,4 +46,8 @@ public class UserService {
         existingUser.setDob(request.getDob());
             return userRepository.save(existingUser);
         }
+
+        public void deleteUser(String userId){
+        userRepository.deleteById(UUID.fromString(userId));
+        }
 }
