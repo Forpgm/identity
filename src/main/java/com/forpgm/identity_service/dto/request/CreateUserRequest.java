@@ -1,10 +1,20 @@
 package com.forpgm.identity_service.dto.request;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class CreateUserRequest {
+
+    @Size(min = 3, message = "Username must be at least 3 characters.")
     private String username;
+
+    @Size(min = 8, message = "Password must be at least 8 characters.")
+    private String password;
+    private String firstName;
+    private String lastName;
+    private LocalDate dob;
 
     public void setUsername(String username) {
         this.username = username;
@@ -46,8 +56,4 @@ public class CreateUserRequest {
         return dob;
     }
 
-    private String password;
-    private String firstName;
-    private String lastName;
-    private LocalDate dob;
 }

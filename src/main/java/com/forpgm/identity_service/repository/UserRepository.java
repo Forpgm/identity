@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
     // 1 request đi qua 3 layer: controller, service, repository
+    boolean existsByUsername(String username);
 }

@@ -4,6 +4,7 @@ import com.forpgm.identity_service.dto.request.CreateUserRequest;
 import com.forpgm.identity_service.dto.request.UpdateUserRequest;
 import com.forpgm.identity_service.entity.User;
 import com.forpgm.identity_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-     User createUser(@RequestBody CreateUserRequest createUserRequest) {
+     User createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
        return userService.createRequest(createUserRequest);
     }
 
