@@ -25,9 +25,9 @@ public class AuthenticationController {
 
         ApiResponse<AuthenticationResponse> apiResponse = new ApiResponse<>();
 
-        boolean isAuthenticated = authenticationService.isAuthenticated(authenticationRequest);
+        var authenticationResponse = authenticationService.isAuthenticated(authenticationRequest);
 
-        if (isAuthenticated) {
+        if (authenticationResponse.isAuthenticated()) {
             AuthenticationResponse authResponse = AuthenticationResponse.builder()
                     .build();
             apiResponse.setMessage("Authentication success");
