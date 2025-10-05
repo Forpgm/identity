@@ -1,5 +1,6 @@
 package com.forpgm.identity_service.controller;
 
+import com.forpgm.identity_service.dto.request.ApiResponse;
 import com.forpgm.identity_service.dto.request.CreateUserRequest;
 import com.forpgm.identity_service.dto.request.UpdateUserRequest;
 import com.forpgm.identity_service.entity.User;
@@ -20,8 +21,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-     User createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-       return userService.createRequest(createUserRequest);
+    ApiResponse<User> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        ApiResponse<User> response = new  ApiResponse<>();
+        response.setResult(userService.createRequest(createUserRequest));
+        response.setMessage("success");
+       return response;
     }
 
     @GetMapping

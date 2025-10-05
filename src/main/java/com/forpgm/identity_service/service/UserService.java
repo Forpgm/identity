@@ -3,8 +3,11 @@ package com.forpgm.identity_service.service;
 import com.forpgm.identity_service.dto.request.CreateUserRequest;
 import com.forpgm.identity_service.dto.request.UpdateUserRequest;
 import com.forpgm.identity_service.entity.User;
+import com.forpgm.identity_service.exception.AppException;
+import com.forpgm.identity_service.exception.ErrorCode;
 import com.forpgm.identity_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +22,7 @@ public class UserService {
     public User createRequest(CreateUserRequest request){
         User user = new User();
 if (userRepository.existsByUsername((request.getUsername()))){
-    throw new RuntimeException("User already exists");
+    throw new AppException(new ErrorCode(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Username already existed."));
 }
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
