@@ -7,6 +7,9 @@ import com.forpgm.identity_service.dto.response.UserResponse;
 import com.forpgm.identity_service.entity.User;
 import com.forpgm.identity_service.service.UserService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
-    ApiResponse<User> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        ApiResponse<User> response = new ApiResponse<>();
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        ApiResponse<UserResponse> response = new ApiResponse<>();
         response.setResult(userService.createRequest(createUserRequest));
         response.setMessage("success");
         return response;

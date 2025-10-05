@@ -3,6 +3,7 @@ package com.forpgm.identity_service.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Data
 @Builder
 @Getter
@@ -20,12 +21,12 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor
 public class User {
     @Id
-    @UuidGenerator
-    private UUID id;
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private LocalDate dob;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String id;
+    String username;
+    String password;
+    String firstName;
+    String lastName;
+    LocalDate dob;
 
 }

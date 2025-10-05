@@ -1,5 +1,6 @@
 package com.forpgm.identity_service.service;
 
+import com.forpgm.identity_service.dto.request.ApiResponse;
 import com.forpgm.identity_service.dto.request.CreateUserRequest;
 import com.forpgm.identity_service.dto.request.UpdateUserRequest;
 import com.forpgm.identity_service.dto.response.UserResponse;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +28,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public User createRequest(CreateUserRequest request) {
-        System.out.println(request.getUsername());
+    public UserResponse createRequest(CreateUserRequest request) {
         if (userRepository.existsByUsername((request.getUsername()))) {
             throw new AppException(new ErrorCode(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Username already existed."));
         }
+
 //        user.setUsername(request.getUsername());
 //        user.setPassword(request.getPassword());
 //        user.setFirstName(request.getFirstName());
@@ -39,7 +42,10 @@ public class UserService {
 //        User user = User.builder().username(request.getUsername()).password(request.getPassword()).firstName(request.getFirstName()).lastName(request.getLastName()).dob(request.getDob()).build();
 
         User user = userMapper.toUser(request);
-        return userRepository.save(user);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user = userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 
     public List<User> getAllUsers() {
