@@ -27,14 +27,12 @@ public class AuthenticationController {
 
         var authenticationResponse = authenticationService.isAuthenticated(authenticationRequest);
 
-        if (authenticationResponse.isAuthenticated()) {
-            AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                    .build();
+            AuthenticationResponse authResponse =
+                    AuthenticationResponse.builder().token(authenticationResponse.getToken()).isAuthenticated(true).build();
+
             apiResponse.setMessage("Authentication success");
-        } else {
-            apiResponse.setCode(422);
-            apiResponse.setMessage("Authentication failed");
-        }
+            apiResponse.setResult(authResponse);
+
         return apiResponse;
     }
 

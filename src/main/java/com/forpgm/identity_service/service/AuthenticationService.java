@@ -26,14 +26,14 @@ public class AuthenticationService {
                         new ErrorCode(HttpStatus.BAD_REQUEST.value(), "User or password is invalid.")
                 ));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword()));
         boolean isAuthenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
         if (!isAuthenticated) {
-            throw new AppException(new ErrorCode(HttpStatus.UNAUTHORIZED.value(), "Authentication failed."));
+            throw new AppException(new ErrorCode(HttpStatus.UNAUTHORIZED.value(), "Unathenticated"));
         }
-       String token = jwtService.generateToken(authenticationRequest.getUsername());
+        // sign token
+        String token = jwtService.generateToken(authenticationRequest.getUsername());
         System.out.println(token);
-        return new AuthenticationResponse(isAuthenticated, token);
+        return AuthenticationResponse.builder().token(token).isAuthenticated(true).build();
     }
 
 }
